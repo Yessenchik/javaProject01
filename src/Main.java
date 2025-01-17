@@ -3,6 +3,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
         // Input Organizer
         System.out.print("Enter organizer's name: ");
         String organizerName = scanner.nextLine();
