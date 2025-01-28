@@ -1,17 +1,10 @@
 public class Organizer extends Person {
-    private String contact;
-
     public Organizer(String name, String contact) {
-        super(name);
-        this.contact = contact;
-    }
-
-    public String getContact() {
-        return contact;
+        super(name, contact);
     }
 
     @Override
     public String toString() {
-        return super.toString() + ", Contact: " + contact;
+        return "Organizer{" + super.toString() + "}";
     }
 }

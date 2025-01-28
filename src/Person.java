@@ -1,31 +1,30 @@
-import java.util.Objects;
-
-abstract class Person {
+public abstract class Person {
     private String name;
+    private String contact;
 
-    public Person(String name) {
+    public Person(String name, String contact) {
         this.name = name;
+        this.contact = contact;
     }
 
     public String getName() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Person person = (Person) obj;
-        return Objects.equals(name, person.name);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Override
     public String toString() {
-        return "Name: " + name;
+        return "Name: " + name + ", Contact: " + contact;
     }
 }
