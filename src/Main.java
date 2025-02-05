@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        OrganizerDAO organizerDAO = new OrganizerDAO();
         EventDAO eventDAO = new EventDAO();
         ParticipantDAO participantDAO = new ParticipantDAO();
 
@@ -10,16 +11,14 @@ public class Main {
             System.out.println("\nChoose an operation:");
             System.out.println("1. Add Event");
             System.out.println("2. Delete Event by Title");
-            System.out.println("3. Update Event by Title");
-            System.out.println("4. Quit");
+            System.out.println("3. Quit");
             System.out.print("Your choice: ");
             int choice = Integer.parseInt(scanner.nextLine());
 
             switch (choice) {
-                case 1 -> addEvent(scanner, eventDAO, participantDAO);
+                case 1 -> addEvent(scanner, organizerDAO, eventDAO, participantDAO);
                 case 2 -> deleteEvent(scanner, eventDAO);
-                case 3 -> updateEvent(scanner, eventDAO);
-                case 4 -> {
+                case 3 -> {
                     System.out.println("Exiting the program.");
                     scanner.close();
                     return;
@@ -29,32 +28,44 @@ public class Main {
         }
     }
 
-    private static void addEvent(Scanner scanner, EventDAO eventDAO, ParticipantDAO participantDAO) {
+    private static void addEvent(Scanner scanner, OrganizerDAO organizerDAO, EventDAO eventDAO, ParticipantDAO participantDAO) {
+        // Gather event details
         System.out.print("Enter event title: ");
         String title = scanner.nextLine();
         System.out.print("Enter event date (YYYY-MM-DD): ");
         String date = scanner.nextLine();
         System.out.print("Enter event time (HH:MM:SS): ");
         String time = scanner.nextLine();
+
+        // Gather organizer details
         System.out.print("Enter organizer name: ");
         String organizerName = scanner.nextLine();
         System.out.print("Enter organizer contact: ");
         String organizerContact = scanner.nextLine();
 
-        Organizer organizer = new Organizer(organizerName, organizerContact);
-        int eventId = eventDAO.addEvent(title, date, time, organizer);
+        // Insert organizer and get ID
+        int organizerId = organizerDAO.addOrganizer(organizerName, organizerContact);
+        if (organizerId == -1) {
+            System.out.println("❌ Failed to add organizer.");
+            return;
+        }
 
-        if (eventId != -1) {
-            System.out.print("Enter the number of participants: ");
-            int numParticipants = Integer.parseInt(scanner.nextLine());
-            for (int i = 0; i < numParticipants; i++) {
-                System.out.print("Enter participant name: ");
-                String participantName = scanner.nextLine();
-                System.out.print("Enter participant contact: ");
-                String participantContact = scanner.nextLine();
-                Participant participant = new Participant(participantName, participantContact);
-                participantDAO.addParticipant(eventId, participant);
-            }
+        // Insert event and get ID
+        int eventId = eventDAO.addEvent(title, date, time, organizerId);
+        if (eventId == -1) {
+            System.out.println("❌ Failed to add event.");
+            return;
+        }
+
+        // Gather participants
+        System.out.print("Enter the number of participants: ");
+        int numParticipants = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < numParticipants; i++) {
+            System.out.print("Enter participant name: ");
+            String participantName = scanner.nextLine();
+            System.out.print("Enter participant contact: ");
+            String participantContact = scanner.nextLine();
+            participantDAO.addParticipant(eventId, participantName, participantContact);
         }
     }
 
@@ -62,23 +73,5 @@ public class Main {
         System.out.print("Enter event title to delete: ");
         String title = scanner.nextLine();
         eventDAO.deleteEventByTitle(title);
-    }
-
-    private static void updateEvent(Scanner scanner, EventDAO eventDAO) {
-        System.out.print("Enter current event title to update: ");
-        String currentTitle = scanner.nextLine();
-        System.out.print("Enter new title: ");
-        String newTitle = scanner.nextLine();
-        System.out.print("Enter new date (YYYY-MM-DD): ");
-        String newDate = scanner.nextLine();
-        System.out.print("Enter new time (HH:MM:SS): ");
-        String newTime = scanner.nextLine();
-        System.out.print("Enter new organizer name: ");
-        String newOrganizerName = scanner.nextLine();
-        System.out.print("Enter new organizer contact: ");
-        String newOrganizerContact = scanner.nextLine();
-
-        Organizer organizer = new Organizer(newOrganizerName, newOrganizerContact);
-        eventDAO.updateEventByTitle(currentTitle, newTitle, newDate, newTime, organizer);
     }
 }
