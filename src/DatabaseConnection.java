@@ -3,7 +3,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    // 🔴 Replace with your actual database details
     private static final String URL = "jdbc:postgresql://localhost:5432/hahha"; // Database URL
     private static final String USER = "postgres"; // Your PostgreSQL username
     private static final String PASSWORD = "2112"; // Your PostgreSQL password
