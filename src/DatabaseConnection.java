@@ -14,9 +14,9 @@ public class DatabaseConnection {
     public static void main(String[] args) {
         try (Connection conn = getConnection()) {
             if (conn != null) {
-                System.out.println("✅ Successfully connected to PostgreSQL!");
+                System.out.println(" Successfully connected to PostgreSQL!");
             } else {
-                System.out.println("❌ Connection failed.");
+                System.out.println("Connection failed.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
