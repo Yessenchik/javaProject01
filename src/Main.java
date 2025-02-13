@@ -47,14 +47,14 @@ public class Main {
         // Insert organizer and get ID
         int organizerId = organizerDAO.addOrganizer(organizerName, organizerContact);
         if (organizerId == -1) {
-            System.out.println("❌ Failed to add organizer.");
+            System.out.println("Failed to add organizer.");
             return;
         }
 
         // Insert event and get ID
         int eventId = eventDAO.addEvent(title, date, time, organizerId);
         if (eventId == -1) {
-            System.out.println("❌ Failed to add event.");
+            System.out.println("Failed to add event.");
             return;
         }
 

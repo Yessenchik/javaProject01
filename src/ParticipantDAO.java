@@ -14,7 +14,7 @@ public class ParticipantDAO {
             stmt.setString(3, contact);
             stmt.executeUpdate();
 
-            System.out.println("✅ Participant added successfully!");
+            System.out.println("Participant added successfully!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

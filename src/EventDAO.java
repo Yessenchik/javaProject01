@@ -38,9 +38,9 @@ public class EventDAO {
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("✅ Event and related organizer & participants deleted!");
+                System.out.println("Event and related organizer & participants deleted!");
             } else {
-                System.out.println("❌ Event not found.");
+                System.out.println("Event not found.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
